@@ -1,0 +1,8 @@
+# -- THEME AUTO-WRITTEN DO NOT EDIT
+include "/home/delirio/.themes/absolute-squared/gtk-2.0/gtkrc"
+
+gtk-theme-name  = "absolute-squared"
+
+include "/home/delirio/.gtkrc.mine"
+
+# -- THEME AUTO-WRITTEN DO NOT EDIT
