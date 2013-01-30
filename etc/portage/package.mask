@@ -1,0 +1,2 @@
+#>x11-drivers/ati-drivers-12.10
+>net-wireless/wpa_supplicant-0.7.3-r5

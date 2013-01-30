@@ -1,0 +1,8 @@
+gentoo:funtoo/1.0/linux-gnu/arch/x86-64bit
+gentoo:funtoo/1.0/linux-gnu/build/current
+gentoo:funtoo/1.0/linux-gnu/flavor/core
+gentoo:funtoo/1.0/linux-gnu/mix-ins/audio
+gentoo:funtoo/1.0/linux-gnu/mix-ins/console-extras
+gentoo:funtoo/1.0/linux-gnu/mix-ins/media
+gentoo:funtoo/1.0/linux-gnu/mix-ins/X
+gentoo:funtoo/1.0/linux-gnu/mix-ins/xfce
