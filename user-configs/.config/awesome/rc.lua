@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+require("awful.remote")
 
 vicious = require("vicious")
 
@@ -46,8 +47,11 @@ beautiful.init("/home/delirio/.themes/zendel/theme.lua")
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvt"
 browser = "chromium"
-pcmanfm ="pcmanfm"
-dmenu = "dmenu_run"
+filemanager ="spacefm"
+torrent = "deluge-gtk"
+videopl="smplayer"
+audiopl="deadbeef"
+mailcl="claws-mail"
 monitor_in = "xrandr --output HDMI-0 --left-of LVDS"
 monitor_out = "xrandr --auto"
 editor = os.getenv("EDITOR") or "vim"
@@ -88,7 +92,7 @@ end
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({ "un", "deux", "trois", "quatre", "cinq", "six" }, s, layouts[1])
 end
 -- }}}
 
@@ -98,17 +102,12 @@ end
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "monitor +", monitor_in },
-   { "monitor -", monitor_out },
+   { "monitor ++", monitor_in },
+   { "monitor +-", monitor_out },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
 
-local upower = [[dbus-send --print-reply \
---system \
---dest=org.freedesktop.UPower \
-/org/freedesktop/UPower \
-org.freedesktop.UPower.]]
 local consolkit = [[dbus-send --print-reply \
 --system \
 --dest="org.freedesktop.ConsoleKit" \
@@ -116,22 +115,34 @@ local consolkit = [[dbus-send --print-reply \
 org.freedesktop.ConsoleKit.Manager.]]
 
 systemmenu = {
---    { "Suspend", function() awful.util.spawn(upower.."Suspend") end },
---    { "Hibernate", function () awful.util.spawn(upower.."Hibernate") end },
     { "Restart", consolkit.."Restart" },
     { "Shutdown", consolkit.."Stop" },
 }
 
-mymainmenu = awful.menu({ items = { { "pcmanfm",pcmanfm },
-                                    { "browser", browser },
+webmenu = {
+   { "browser", browser },
+   { "jabber", terminal .. " -e mcabber" },
+   { "skype", "skype" },
+   { "mail", mailcl },
+   { "torrent", torrent }
+}
+
+mediamenu = {
+   { "video", videopl },
+   { "audio", audiopl }
+}
+
+mymainmenu = awful.menu({ items = { { "filemanager",filemanager },
                                     { "terminal", terminal },
+                                    { "web", webmenu },
+				    { "media", mediamenu },
 				    { "awesome", myawesomemenu },
                                     { "system", systemmenu }
                                   }
                         })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
+--mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
+--                                     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -142,11 +153,25 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mytextclock = awful.widget.textclock()
 
 spacer = wibox.widget.textbox()
-spacer:set_text(" | ")
+spacer:set_text(" · ")
+
+--- {{{ keyboard indicator
+kbindicator = wibox.widget.textbox()
+kbindicator:set_markup( "US" )
+
+dbus.request_name("session", "ru.gentoo.kbdd")
+dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
+dbus.connect_signal("ru.gentoo.kbdd", function(...)
+    local data = {...}
+    local layout = data[2]
+    lts = {[0] = "US", [1] = "RU"}
+    kbindicator:set_text(""..lts[layout].."")
+    end
+)
+--- keyboard indicator }}}
 
 batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, '<span color="white">BAT:</span> $1 | $2 | $3', 10, 'BAT0' )
---batwidget.text ="BAT:"
+vicious.register(batwidget, vicious.widgets.bat, '<span>BAT:</span> $2', 10, 'BAT0' )
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -218,13 +243,16 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mylauncher)
+--    left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
     left_layout:add(mypromptbox[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(spacer)
+    right_layout:add(kbindicator)
+    right_layout:add(spacer)
     right_layout:add(batwidget)
     right_layout:add(spacer)
     right_layout:add(mytextclock)
@@ -464,3 +492,12 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+function run_once(prg)
+    if not prg then
+        return
+    end
+    awful.util.spawn_with_shell("x=" .. prg .. "; pgrep -u $USER -x " .. prg .. " || (" .. prg .. ")")
+end
+
+run_once("pnmixer")
+run_once("kbdd")

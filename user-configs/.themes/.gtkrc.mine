@@ -1,0 +1,9 @@
+include '~/.themes/absolute-squared/gtk-2.0/gtkrc'
+gtk-icon-theme-name = "Tango"
+
+style "schrift"
+{
+font_name = "Droid Sans 10"
+}
+widget_class "*" style "schrift"
+gtk-font-name = "Droid Sans 10"

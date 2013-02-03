@@ -22,3 +22,6 @@ media-video/mplayer 3dnow X a52 aalib alsa cddb cdio cdparanoia cpudetection dga
 media-video/ffmpeg 3dnow X aac alsa amr bzip2 cpudetection encode faac hardcoded-tables ieee1394 jpeg2k mmx mmxext mp3 openal sdl speex ssse3 theora threads truetype v4l vaapi vdpau vorbis x264 xvid zlib
 gnome-base/gvfs bluetooth gnome-keyring gphoto2 gtk http udev udisks fuse
 net-wireless/wpa_supplicant wimax
+#required by games-util/steam-client-meta-9999[flash,amd64], required by games-util/steam-meta-9999, required by games-util/steam-meta (argument)
+>=www-plugins/adobe-flash-11.2.202.261 32bit
+x11-wm/echinus xrandr

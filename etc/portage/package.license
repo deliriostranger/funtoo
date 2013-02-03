@@ -1,2 +1,4 @@
 #required by www-plugins/adobe-flash (argument)
 >=www-plugins/adobe-flash-11.2.202.261 AdobeFlash-10.3
+#required by net-im/skype (argument)
+>=net-im/skype-4.1.0.20 skype-4.0.0.7-copyright
