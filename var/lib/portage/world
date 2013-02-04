@@ -9,6 +9,7 @@ app-editors/leafpad
 app-editors/vim
 app-misc/mc
 app-misc/screen
+app-misc/screenfetch
 app-office/openoffice-bin
 app-portage/eix
 app-portage/gentoolkit
@@ -28,7 +29,9 @@ media-fonts/dejavu
 media-fonts/droid
 media-fonts/liberation-fonts
 media-fonts/terminus-font
+media-gfx/geeqie
 media-gfx/gimp
+media-gfx/scrot
 media-libs/fontconfig
 media-libs/ftgl
 media-sound/alsa-tools
@@ -77,6 +80,7 @@ sys-process/lsof
 virtual/editor
 www-client/chromium
 www-client/midori
+www-client/w3m
 www-plugins/adobe-flash
 x11-apps/mesa-progs
 x11-apps/xdm

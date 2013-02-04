@@ -1,7 +1,15 @@
 # -- THEME AUTO-WRITTEN DO NOT EDIT
-include "/home/delirio/.themes/absolute-squared/gtk-2.0/gtkrc"
+include "/home/delirio/.themes/Orion/gtk-2.0/gtkrc"
 
-gtk-theme-name  = "absolute-squared"
+style "user-font" {
+	font_name = "Droid Sans 9"
+}
+
+widget_class "*" style "user-font"
+
+gtk-font-name="Droid Sans 9"
+
+gtk-theme-name  = "Orion"
 
 include "/home/delirio/.gtkrc.mine"
 
